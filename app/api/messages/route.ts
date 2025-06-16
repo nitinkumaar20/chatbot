@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   const { text } = await req.json();
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" }); // ✅ use latest model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // ✅ use latest model
     const result = await model.generateContent([text]);
     const aiResponse = await result.response.text();
 
