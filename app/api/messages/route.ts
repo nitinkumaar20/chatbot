@@ -1,8 +1,8 @@
-// app/api/messages/route.ts
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { connectMongo } from "../../../lib/mong"; // Adjust the import path as needed
-import { Message } from "../../../models/Message"; // Adjust the import path as needed
+import { connectMongo } from "../../../lib/mong"; 
+import { Message } from "../../../models/Message"; 
 
 const apiKey = process.env.NEXT_PUBLIC__GEMINI_API;
 
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   const { text } = await req.json();
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // ✅ use latest model
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
     const result = await model.generateContent([text]);
     const aiResponse = await result.response.text();
 
