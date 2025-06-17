@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { connectMongo } from "../../../lib/mong";
 import { Message } from "../../../models/Message";
 
-const apiKey = process.env.NEXT_PUBLIC__GEMINI_API; // Server-side only key
+const apiKey = process.env.NEXT_PUBLIC__GEMINI_API; 
 
 if (!apiKey) {
   throw new Error("Missing GEMINI_API_KEY in environment variables");
@@ -11,7 +11,7 @@ if (!apiKey) {
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
-// 🟢 POST: Send message and receive AI response
+
 export async function POST(req: Request) {
   await connectMongo();
 
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
   }
 }
 
-// 🟢 GET: Fetch all messages from MongoDB
+
 export async function GET() {
   await connectMongo();
 
