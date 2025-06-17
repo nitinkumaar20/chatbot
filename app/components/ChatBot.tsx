@@ -57,7 +57,7 @@ export default function ChatModal() {
               <div
                 key={i}
                 className={`p-2 rounded ${
-                  msg.sender === 'user' ? 'bg-blue-100 text-right ml-auto' : 'bg-gray-100 text-left mr-auto'
+                  msg.sender === 'user' ? 'bg-blue-100 text-right ml-auto text-black' : 'bg-gray-100 text-left mr-auto text-black'
                 }`}
               >
                 {msg.text}
@@ -67,7 +67,7 @@ export default function ChatModal() {
           <div className="flex border-t p-2">
             <input
               type="text"
-              className="flex-1 border rounded px-2 py-1 text-sm"
+              className="flex-1 border rounded px-2 py-1 text-sm text-black"
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && sendMessage()}
