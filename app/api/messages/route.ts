@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { connectMongo } from "../../../lib/mong";
 import { Message } from "../../../models/Message";
 
-const apiKey = process.env.gEMINI_API; 
+const apiKey = process.env.GEMINI_API;
 
 if (!apiKey) {
   throw new Error("Missing GEMINI_API_KEY in environment variables");
