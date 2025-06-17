@@ -13,11 +13,24 @@ export default function ChatModal() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
 
+  // useEffect(() => {
+  //   fetch('/api/messages')
+  //     .then(res => res.json())
+  //     .then(setMessages);
+  // }, []);
+
   useEffect(() => {
-    fetch('/api/messages')
-      .then(res => res.json())
-      .then(setMessages);
-  }, []);
+  fetch("/api/messages")
+    .then(async (res) => {
+      if (!res.ok) throw new Error("API error: " + res.status);
+      const text = await res.text();
+      if (!text) return []; // Return empty array if no content
+      return JSON.parse(text);
+    })
+    .then((data) => setMessages(data))
+    .catch((err) => console.error("Fetch error:", err));
+}, []);
+
 
   const sendMessage = async () => {
     if (!input.trim()) return;

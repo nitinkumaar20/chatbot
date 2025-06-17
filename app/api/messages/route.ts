@@ -1,10 +1,9 @@
-
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-import { connectMongo } from "../../../lib/mong"; 
-import { Message } from "../../../models/Message"; 
+import { connectMongo } from "../../../lib/mong";
+import { Message } from "../../../models/Message";
 
-const apiKey = process.env.NEXT_PUBLIC__GEMINI_API;
+const apiKey = process.env.NEXT_PUBLIC__GEMINI_API; // Server-side only key
 
 if (!apiKey) {
   throw new Error("Missing GEMINI_API_KEY in environment variables");
@@ -12,12 +11,14 @@ if (!apiKey) {
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
+// 🟢 POST: Send message and receive AI response
 export async function POST(req: Request) {
   await connectMongo();
-  const { text } = await req.json();
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
+    const { text } = await req.json();
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const result = await model.generateContent([text]);
     const aiResponse = await result.response.text();
 
@@ -28,5 +29,18 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Gemini API error:", error);
     return NextResponse.json({ error: "Gemini API error" }, { status: 500 });
+  }
+}
+
+// 🟢 GET: Fetch all messages from MongoDB
+export async function GET() {
+  await connectMongo();
+
+  try {
+    const messages = await Message.find().sort({ createdAt: 1 });
+    return NextResponse.json(messages);
+  } catch (error) {
+    console.error("Failed to fetch messages:", error);
+    return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
   }
 }
